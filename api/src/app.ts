@@ -1,3 +1,5 @@
+import * as fs from "fs";
+
 process.env['NODE_CONFIG_DIR'] = __dirname + '/configs';
 
 import compression from 'compression';
@@ -13,11 +15,14 @@ import swaggerUi from 'swagger-ui-express';
 import { Routes } from '@interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
 import { logger, stream } from '@utils/logger';
+import * as https from "https";
 
 class App {
   public app: express.Application;
   public port: string | number;
   public env: string;
+  public privateKey = fs.readFileSync(__dirname + '/sslcert/localhost.site.key').toString();
+  public certificate = fs.readFileSync(__dirname + '/sslcert/localhost.site.crt').toString();
 
   constructor(routes: Routes[]) {
     this.app = express();
@@ -31,7 +36,14 @@ class App {
   }
 
   public listen() {
-    this.app.listen(this.port, () => {
+    const credentials = {key: this.privateKey, cert: this.certificate};
+
+    // for dev purposes only as only using self signed cert
+    // generated from the following command...
+    //  openssl req -x509 -new -newkey rsa:2048 -nodes -days 365 -keyout localhost.site.key -out localhost.site.crt -config config.cnf
+
+    const httpsServer = https.createServer(credentials, this.app);
+    httpsServer.listen(this.port, () => {
       logger.info(`=================================`);
       logger.info(`======= ENV: ${this.env} =======`);
       logger.info(`🚀 App listening on the port ${this.port}`);

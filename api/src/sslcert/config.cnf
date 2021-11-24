@@ -1,0 +1,14 @@
+prompt             = no
+distinguished_name = req_dn
+x509_extensions = x509_ext
+
+[ req_dn ]
+
+commonName             = My Web Service
+
+[ x509_ext ]
+
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = localhost

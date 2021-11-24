@@ -1,0 +1,24 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+body {
+  perspective: 800px;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  font-family:'Poppins', sans-serif;
+  font-size: 13px;
+
+
+}
+body::-webkit-input-placeholder {
+  color: #4E546D;
+}
+
+video {
+  object-fit: cover;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}

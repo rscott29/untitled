@@ -1,0 +1,99 @@
+<video #backgroundVid (loadedmetadata)='backgroundVid.muted = true; backgroundVid.loop = true'
+       (canplay)='backgroundVid.play()'>
+  <source src='../../assets/background.mp4' type='video/mp4'>
+</video>
+
+<div class='brand'>
+  <a href='https://www.linkedin.com/in/richard-scott-66a12ba0/' target='_blank'>
+    <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/logo.png' alt='background particle video'>
+  </a>
+</div>
+<form [formGroup]='loginForm'>
+
+
+  <div class='login' [ngClass]="loginClicked ? 'flatten_animation' : ''"  *ngIf='!loginComplete' @fade>
+
+
+    <div class='login_fields' *ngIf='show' @ngIfAnimation>
+      <div class='login_title'>
+        <span>Login to your account</span>
+      </div>
+      <div class='login_fields__user' >
+        <div class='icon'>
+          <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/user_icon_copy.png'>
+        </div>
+        <input formControlName='email' placeholder='Email' type='text'>
+        <div class='validation' *ngIf='email?.valid' >
+          <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/tick.png'>
+        </div>
+      </div>
+      <div class='login_fields__password'>
+        <div class='icon'>
+          <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png'>
+        </div>
+        <input formControlName='password' placeholder='Password' type='password'>
+        <div class='validation' *ngIf='password?.valid' >
+          <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/tick.png'>
+        </div>
+      </div>
+      <div class='login_fields__submit'>
+        <input type='submit' value='Log In' (click)='login()' [disabled]='loginForm.invalid'
+               [ngClass]="{'disabled': loginForm.invalid}">
+        <div class='forgot'>
+          <a href='#'>Forgotten password?</a>
+        </div>
+      </div>
+    </div>
+
+    <div class='success' *ngIf='(authState | async) as state' >
+      <div class='login' *ngIf='isLoggedIn'>
+        <div class='success_content' >
+          <h2> {{state.message}}</h2>
+          <p>Welcome Back <span class='name'>{{state.user}}</span></p>
+          <div class='tick'>
+            <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+              <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
+              <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 "/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class='login' *ngIf='!isLoggedIn' >
+        <div class='fail_content'  *ngIf="animationState === 'out' && !show" @ngIfAnimation >
+        <h2>Authentication Failed</h2>
+          <p>{{state.message}}</p>
+          <div class='cross'>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+              <circle class="path circle" fill="none" stroke="#D06079" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
+              <line class="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3"/>
+              <line class="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2"/>
+            </svg>
+          </div>
+          <div class='login_fields__submit retry'>
+            <input type='submit' value='Try Again' (click)='retry()'>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class='disclaimer'>
+      <p>By logging on to this site. You are agreeing not to be a dick. All dickery will be swiftly dealt with with by menacing glares and
+          flailing gestures. Don't be a dick.
+      </p>
+    </div>
+  </div>
+  <div class='authent' [@slideInOut]='animationState' *ngIf='!loginComplete'>
+    <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/puff.svg'>
+    <p>Authenticating...</p>
+
+  </div>
+  <div class='love'>
+    <p>Made with <img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/love_copy.png' /> by <a
+      href='https://www.facebook.com/rscott29' target='_blank'> ScottTech </a></p>
+  </div>
+</form>
+
